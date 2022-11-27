@@ -90,6 +90,112 @@
   line-height: 1;
 }
 
+/* Time line css starts*/
+/* exact center: transform: translate(557.5px, 45.5px); 
+If translate is this, then add class done
+*/
+.timeline_wrapper {
+    background: #111;
+    color: #fff;
+    box-shadow: 0 0 0 100vmax #111;
+    clip-path: inset(0 -100vmax);
+    padding: 50px 0;
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+}
+#circle_wrapper {
+    position: relative;
+    transition: transform 100ms;
+    transform: rotate(0deg);
+}
+#circle {
+    height: calc(100vmax - 8rem);
+    width: 100%;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    margin: 0 auto;
+    z-index: 1;
+}
+.nodes {
+    list-style: none;    
+    text-align: left;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: -5px;
+    left: 48%;
+    z-index: 2;
+    height: calc(100vmax - 30rem);
+    width: 100%;
+}
+.nodes li {
+    display: inline-block;
+    position: relative;
+    font-size: 10px;
+    height: 11px;
+    margin: 15px 5px 0;
+    transition: transform 500ms;
+}
+.nodes li:nth-child(1) {
+    transform: translate(0px, 0px);
+}
+.nodes li:nth-child(2) {
+    transform: translate(40px, 6px);
+}
+.nodes li:nth-child(3) {
+    transform: translate(77px, 22px);
+}
+.nodes li:nth-child(4) {
+    transform: translate(125px, 57px);
+}
+.nodes li:nth-child(5) {
+    transform: translate(165px, 114px);
+}
+.nodes li:nth-child(6) {
+    transform: translate(172px, 198px);
+}
+.nodes li:nth-child(7) {
+    transform: translate(150px, 261px);
+}
+.nodes li:nth-child(8) {
+    transform: translate(180px, 412px);
+}
+/* .nodes li:first-child {
+    transform: translate(557.5px, 45.5px);
+} */
+.nodes li:before {
+    content: "";
+    display: block;
+    height: 10px;
+    width: 10px;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    background: #111;
+    position: absolute;
+    top: -16px;
+    left: 35%;
+}
+.nodes li.done::after {
+    content: "";
+    display: block;
+    height: 3px;
+    width: 3px;
+    background: #fff;
+    position: absolute;
+    top: -11.5px;
+    left: 47%;
+    border-radius: 50%;
+}
+.canvas {
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* Time line css ends*/
+
 @media (max-width: 600px) {
   .grid {
     width: 100%;
