@@ -9,18 +9,49 @@ export default function Home() {
         // You now have access to `window`
         console.log('aaa');
         
+        function elementsOverlap(el1, el2) {
+            const domRect1 = el1.getBoundingClientRect();
+            const domRect2 = el2.getBoundingClientRect();
+            const min = -5;
+
+            console.log(domRect1.left - min);
+            console.log(domRect2.right);
+            
+            // return !(
+            //     domRect1.top - min > domRect2.bottom ||
+            //     domRect1.right - min < domRect2.left ||
+            //     domRect1.bottom - min < domRect2.top ||
+            //     domRect1.left - min > domRect2.right
+            // );
+            return !(domRect1.left - min > domRect2.right);
+        }
         
         setInterval(function () {
-            console.log('sec');
+            console.log('===============================================');
 
             //rotate the circle
             var angle = parseFloat( jQuery('#page_circle_wrapper__RmoWD').attr('data-angle') );
             angle = angle - 0.09;
-            console.log(angle);
+            // console.log(angle);
             jQuery('#page_circle_wrapper__RmoWD').css('transform', 'rotate('+ angle +'deg)');
             jQuery('#page_circle_wrapper__RmoWD').attr('data-angle', angle);
 
-            // rotate the titles
+            var threshold = jQuery('.page_timeline_wrapper__ybJhT').offset().top;
+            var bottomThreshold = threshold + jQuery('.page_timeline_wrapper__ybJhT').outerHeight();
+            // console.log(threshold);
+            
+            jQuery('#nodes li').each(function (threshold, bottomThreshold) {
+                
+                // var matrix = jQuery(this).css('transform').replace(/[^0-9\-.,]/g, '').split(',');
+                // var x = matrix[12] || matrix[4];
+                var elementTop = jQuery(this).offset().top;
+                //console.log( elementTop );
+                if (elementsOverlap(jQuery(this).find('div')[0], jQuery('#page_marker__Y9t1D')[0]) === true ) {
+                    jQuery(this).addClass('page_done__0RB5C');
+                }
+                // check if element goes outside div remove done class
+                
+            });
 
 
             /*
@@ -87,17 +118,18 @@ export default function Home() {
                 </div>
 
                 <div className={styles.timeline_wrapper}>
+                    <div id={styles.marker}></div>
                     <div id={styles.circle_wrapper} data-angle="0">
                         <div id={styles.circle}></div>
                         <ul id="nodes" className={styles.nodes}>
-                            <li data-current-x="0" data-current-y="0"><span>Startup</span></li>
-                            <li data-current-x="40" data-current-y="6"><span>Liftoff</span></li>
-                            <li data-current-x="77" data-current-y="22"><span>Max Q</span></li>
-                            <li data-current-x="125" data-current-y="57"><span>MECO</span></li>                   
-                            <li data-current-x="165" data-current-y="114"><span>S1 Detach</span></li>
-                            <li data-current-x="172" data-current-y="198"><span>S2 Startup</span></li>
-                            <li data-current-x="150" data-current-y="261"><span>SECO</span></li>
-                            <li data-current-x="180" data-current-y="412"><span>Deploy</span></li>
+                            <li data-current-x="0" data-current-y="0"><div className={styles.node_circle}></div><span>Startup</span></li>
+                            <li data-current-x="40" data-current-y="6"><div className={styles.node_circle}></div><span>Liftoff</span></li>
+                            <li data-current-x="77" data-current-y="22"><div className={styles.node_circle}></div><span>Max Q</span></li>
+                            <li data-current-x="125" data-current-y="57"><div className={styles.node_circle}></div><span>MECO</span></li>                   
+                            <li data-current-x="165" data-current-y="114"><div className={styles.node_circle}></div><span>S1 Detach</span></li>
+                            <li data-current-x="172" data-current-y="198"><div className={styles.node_circle}></div><span>S2 Startup</span></li>
+                            <li data-current-x="150" data-current-y="261"><div className={styles.node_circle}></div><span>SECO</span></li>
+                            <li data-current-x="180" data-current-y="412"><div className={styles.node_circle}></div><span>Deploy</span></li>
                         </ul>
                     </div>
                 </div>
