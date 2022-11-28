@@ -12,11 +12,16 @@ export default function Home() {
         
         setInterval(function () {
             console.log('sec');
+
+            //rotate the circle
             var angle = parseFloat( jQuery('#page_circle_wrapper__RmoWD').attr('data-angle') );
-            angle = angle - 0.03;
+            angle = angle - 0.09;
             console.log(angle);
             jQuery('#page_circle_wrapper__RmoWD').css('transform', 'rotate('+ angle +'deg)');
             jQuery('#page_circle_wrapper__RmoWD').attr('data-angle', angle);
+
+            // rotate the titles
+
 
             /*
             jQuery('#nodes li').each(function () {
@@ -85,14 +90,14 @@ export default function Home() {
                     <div id={styles.circle_wrapper} data-angle="0">
                         <div id={styles.circle}></div>
                         <ul id="nodes" className={styles.nodes}>
-                            <li data-current-x="0" data-current-y="0">Startup</li>
-                            <li data-current-x="40" data-current-y="6">Liftoff</li>
-                            <li data-current-x="77" data-current-y="22">Max Q</li>
-                            <li data-current-x="125" data-current-y="57">MECO</li>                   
-                            <li data-current-x="165" data-current-y="114">Stage 1 Detach</li>
-                            <li data-current-x="172" data-current-y="198">Stage 2 Startup</li>
-                            <li data-current-x="150" data-current-y="261">SECO</li>
-                            <li data-current-x="180" data-current-y="412">Deploy</li>
+                            <li data-current-x="0" data-current-y="0"><span>Startup</span></li>
+                            <li data-current-x="40" data-current-y="6"><span>Liftoff</span></li>
+                            <li data-current-x="77" data-current-y="22"><span>Max Q</span></li>
+                            <li data-current-x="125" data-current-y="57"><span>MECO</span></li>                   
+                            <li data-current-x="165" data-current-y="114"><span>S1 Detach</span></li>
+                            <li data-current-x="172" data-current-y="198"><span>S2 Startup</span></li>
+                            <li data-current-x="150" data-current-y="261"><span>SECO</span></li>
+                            <li data-current-x="180" data-current-y="412"><span>Deploy</span></li>
                         </ul>
                     </div>
                 </div>
