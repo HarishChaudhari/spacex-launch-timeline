@@ -53,7 +53,7 @@ export default function Home() {
             timer = (mode === 'dec') ? --timer : ++timer;
             
             if (timer < 0) {
-                // clear interval as we don't want to repeat the countdown
+                // clear interval as we don't want to repeat the countdown.
                 clearInterval(timerInterval);
                 startRotation();
                 setTimer(0, 'inc');
