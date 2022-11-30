@@ -63,13 +63,6 @@ export default function Home() {
         const domRect2 = el2.getBoundingClientRect();
         const min = -5; // offset
 
-        // this is to find the exact overlap
-        // return !(
-        //     domRect1.top - min > domRect2.bottom ||
-        //     domRect1.right - min < domRect2.left ||
-        //     domRect1.bottom - min < domRect2.top ||
-        //     domRect1.left - min > domRect2.right
-        // );
         return !(domRect1.left - min > domRect2.right);
     }
     function elementOutside(el1 : any, el2 : any) {
@@ -90,10 +83,6 @@ export default function Home() {
             jQuery('#page_circle_wrapper__RmoWD').attr('data-angle', angle);
 
             jQuery('#nodes li').each(function () {
-                
-                // var matrix = jQuery(this).css('transform').replace(/[^0-9\-.,]/g, '').split(',');
-                // var x = matrix[12] || matrix[4];
-                var elementTop = jQuery(this).offset().top;
                 
                 if (elementsOverlap(jQuery(this).find('div')[0], jQuery('#page_marker__Y9t1D')[0]) === true ) {
                     jQuery(this).addClass('page_done__0RB5C');
