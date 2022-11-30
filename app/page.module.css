@@ -308,7 +308,31 @@ li.done::after {
     font-size: 2rem;
     padding: 25px 0;
 }
-
+.input_text {
+    padding: 5px 10px;
+    width: 100%;
+    max-width: 100%;
+    border: 1px solid #ccc;
+    box-shadow: none;
+    border-radius: 5px;
+    color: #111;
+    margin: 5px 0;
+    outline: none;
+}
+.input_text:active, .input_text:focus {
+    border-color: #0070f3;
+}
+.button {
+    background: #0070f3;
+    border: 0;
+    color: #fff;
+    padding: 8px 25px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.button:hover {
+    opacity: 0.9;
+}
 /* Time line css ends*/
 
 @media (max-width: 600px) {

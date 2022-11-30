@@ -6,10 +6,11 @@ var timerInterval: any;
 var rotationInterval: any;
 
 export default function Home() {
-    const [timeValue, setTimeValue] = useState('0');
+    const [timeValue, setTimeValue] = useState('0.5');
     const [timerClock, setTimerClock] = useState('T - 00:00:00');
     const [is_started, setIsStarted] = useState(false);
-    const [rotationAngle, setRotationAngle] = useState(0);
+    const [rotationAngle, setRotationAngle] = useState(0.1);
+    const [countUpClass, setCountUpClass] = useState('');
 
     function startLaunch(){
         if( is_started === true ) {
@@ -18,8 +19,8 @@ export default function Home() {
             clearInterval(rotationInterval);
         } else {
             setIsStarted(true);
-            setTimer(timeValue);
-            startRotation();
+            setTimer(timeValue, 'dec');
+            
         }
     }
     function setAngle(e) {
@@ -33,10 +34,11 @@ export default function Home() {
         return setTimeValue(e.target.value);
     }
 
-    function setTimer ( input : any ) {
+    function setTimer ( input : any, mode : string ) {
         clearInterval(timerInterval);
         let duration = input * 60;
         let timer = duration, hours, minutes, seconds;
+        
         timerInterval = setInterval(function () {
             hours = Math.floor(timer / 3600);
             minutes = Math.floor(timer % 3600 / 60);
@@ -46,12 +48,18 @@ export default function Home() {
             minutes = minutes < 10 ? "0" + minutes : minutes;
             seconds = seconds < 10 ? "0" + seconds : seconds;
             
-            setTimerClock("T - " + hours + ":" + minutes + ":" + seconds);
-
-            if (--timer < 0) {
+            let prefix = (mode === 'dec') ? "T - " : "T + ";
+            setTimerClock( prefix + hours + ":" + minutes + ":" + seconds);
+            
+            timer = (mode === 'dec') ? --timer : ++timer;
+            
+            if (timer < 0) {
                 // clear interval as we don't want to repeat the countdown
                 clearInterval(timerInterval);
+                startRotation();
+                setTimer(0, 'inc');
             }
+            
         }, 1000);
     };
     
@@ -154,6 +162,7 @@ export default function Home() {
                         </ul>
                     </div>
 
+                    {/* <div className={[styles.timer_clock, countUpClass].join(" ")}>{timerClock}</div> */}
                     <div className={styles.timer_clock}>{timerClock}</div>
                 </div>
             </main>
