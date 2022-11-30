@@ -18,7 +18,6 @@ export default function Home() {
             setIsStarted(false);
             clearInterval(timerInterval);
             clearInterval(rotationInterval);
-            console.log("a");
         } else {
             setIsStarted(true);
             setTimer(timeValue);
