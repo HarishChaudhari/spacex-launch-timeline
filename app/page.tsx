@@ -90,36 +90,8 @@ export default function Home() {
                 // check if element goes outside div remove done class
                 if (elementOutside(jQuery(this).find('div')[0], jQuery('.page_timeline_wrapper__ybJhT')[0]) === true) {
                     jQuery(this).removeClass('page_done__0RB5C');
-                }
-                
+                } 
             });
-
-
-            /*
-            jQuery('#nodes li').each(function () {
-                // x is moving left so decreasing only
-                var x = jQuery(this).data('current-x');
-                var y = jQuery(this).data('current-y');
-
-                // y has two sides, left and right of the center of circle
-                // if node has crossed the center y needs to be incremented
-                // if node has not crossed the center then y needs to be decremented
-                // center is the current second of time
-
-
-                if (x < 0) {
-                    y = y + 1;
-                } else {
-                    y = y - 1;
-                }
-                x = x - 1;
-
-                jQuery(this).attr('data-current-x', x);
-                jQuery(this).attr('data-current-y', y);
-
-                jQuery(this).css({ 'transform': 'translate(' + x + 'px, ' + y + 'px)' });
-            });
-            */
         }, 100);
     }
 
@@ -132,15 +104,6 @@ export default function Home() {
     return (
         <div className={styles.container}>
             <main className={styles.main}>
-                {/* <h1 className={styles.title}>
-                <a href="https://nextjs.org">SpaceX Launch Timeline</a>
-                </h1> */}
-
-                {/* <p className={styles.description}>
-                Get started by editing{' '}
-                <code className={styles.code}>app/page.tsx</code>
-                </p> */}
-
                 <div className={styles.grid}>
                     <a className={styles.card}>
                         <h2>Start/Stop</h2>
