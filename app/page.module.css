@@ -120,9 +120,9 @@ If translate is this, then add class done
 #marker {
     position: absolute;
     left: 50%;
-    top: 47px;
+    top: 47.5px;
     background: #fff;
-    height: 7px;
+    height: 6px;
     width: 1px;
     margin: 0 auto;
 }
@@ -133,7 +133,7 @@ If translate is this, then add class done
     padding: 0;
     position: absolute;
     top: -5px;
-    left: 48%;
+    left: 48.15%;
     z-index: 2;
     height: calc(100vmax - 30rem);
     width: 100%;
@@ -156,6 +156,25 @@ If translate is this, then add class done
     left: 0;
     top: 0;
 }
+.nodes li:nth-child(odd) span:before,.nodes li:nth-child(even) span:after {
+    content: "";
+    display: block;
+    background: #fff;
+    width: 1px;
+    height: 4px;
+    position: absolute;
+}
+.nodes li:nth-child(odd) span:before {
+    top: -10px;
+    left: 49%;
+}
+.nodes li:nth-child(even) span:after {
+    bottom: -9px;
+    left: 50%;
+}
+.nodes li:nth-child(even) span {
+    margin-top: -40px;
+}
 .nodes li span {
     display: block;
 }
@@ -168,7 +187,7 @@ If translate is this, then add class done
 }
 .nodes li:nth-child(4) span {
     transform: rotate(27deg);
-    text-indent: -15px;
+    text-indent: 15px;
 }
 .nodes li:nth-child(5) span {
     transform: rotate(31deg);
@@ -176,17 +195,40 @@ If translate is this, then add class done
 }
 .nodes li:nth-child(6) span {
     transform: rotate(35deg);
-    text-indent: -17px;
+    text-indent: 17px;
 }
 .nodes li:nth-child(7) span {
-    transform: rotate(53deg);
+    transform: rotate(52deg);
     text-indent: -25px;
     margin-right: 10px;
 }
 .nodes li:nth-child(8) span {
     transform: rotate(72deg);
-    margin-right: 20px;
-    text-indent: -31px;
+    margin-left: 20px;
+    text-indent: 31px;
+}
+.nodes li:nth-child(3) span:before {
+    left: 41%;
+}
+.nodes li:nth-child(4) span:after {
+    left: 60%;
+    bottom: -7px;
+}
+.nodes li:nth-child(5) span:before {
+    left: 35%;
+    top: -7px;
+}
+.nodes li:nth-child(6) span:after {
+    left: 63%;
+    bottom: -6px;
+}
+.nodes li:nth-child(7) span:before {
+    left: 30%;
+    top: -6px;
+}
+.nodes li:nth-child(8) span:after {
+    bottom: -6px;
+    left: 74%;
 }
 .nodes li:nth-child(1) {
     transform: translate(-18px, 19px);
@@ -256,14 +298,15 @@ li.done::after {
     background: #fff;
     position: absolute;
     top: -17px;
-    left: 47%;
+    left: 46.5%;
     border-radius: 50%;
 }
-.canvas {
-    z-index: 2;
+.timer_clock {
     position: absolute;
-    top: 0;
-    left: 0;
+    bottom: 0;
+    left: 42.1%;
+    font-size: 2rem;
+    padding: 25px 0;
 }
 
 /* Time line css ends*/
