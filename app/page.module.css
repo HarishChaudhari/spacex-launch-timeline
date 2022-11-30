@@ -112,7 +112,7 @@ If translate is this, then add class done
 }
 #circle {
     /* height: calc(100vmax - 8rem); */
-    height: calc(1152px - 20px);
+    height: 1152px;
     width: 100%;
     border: 1px solid #fff;
     border-radius: 50%;
