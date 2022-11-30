@@ -80,7 +80,7 @@ export default function Home() {
         clearInterval(rotationInterval);
         rotationInterval = setInterval(function () {
             //rotate the circle
-            var angle = parseFloat( jQuery('#page_circle_wrapper__RmoWD').attr('data-angle') );
+            var angle = parseFloat( jQuery('#page_circle_wrapper__RmoWD').attr('data-angle') as string );
             angle = angle - rotationAngle;
 
             jQuery('#page_circle_wrapper__RmoWD').css('transform', 'rotate('+ angle +'deg)');

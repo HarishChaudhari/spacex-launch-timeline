@@ -256,31 +256,6 @@ If translate is this, then add class done
 .nodes li:nth-child(8) {
     transform: translate(535px, 432px);
 }
-/* .nodes li:first-child {
-    transform: translate(557.5px, 45.5px);
-} */
-.nodes li:before {
-    /* content: "";
-    display: block;
-    height: 10px;
-    width: 10px;
-    border: 1px solid #fff;
-    border-radius: 50%;
-    background: #111;
-    position: absolute;
-    top: -16px;
-    left: 35%; */
-    /* content: "";
-    display: block;
-    height: 10px;
-    width: 10px;
-    border: 1px solid #fff;
-    border-radius: 50%;
-    background: #111;
-    position: absolute;
-    top: -20px;
-    left: 43%; */
-}
 .node_circle {
     display: block;
     height: 10px;
