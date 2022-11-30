@@ -5,6 +5,7 @@
 .main {
   min-height: 100vh;
   padding: 0;
+  width: 1152px;
   /* flex: 1;
   display: flex;
   flex-direction: column;
@@ -56,8 +57,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
-  max-width: 1200px;
+  /* flex-wrap: wrap; */
+  width: 1200px;
 }
 
 .card {
@@ -110,7 +111,8 @@ If translate is this, then add class done
     transform: rotate(0deg);
 }
 #circle {
-    height: calc(100vmax - 8rem);
+    /* height: calc(100vmax - 8rem); */
+    height: calc(1152px - 20px);
     width: 100%;
     border: 1px solid #fff;
     border-radius: 50%;
@@ -332,6 +334,18 @@ li.done::after {
 }
 .button:hover {
     opacity: 0.9;
+}
+.fun {
+    text-align: center;
+    font-size: 16px;
+    line-height: 1.5;
+}
+.fun_desc {
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.5;
+    width: 70%;
+    margin: 0 auto;
 }
 /* Time line css ends*/
 
