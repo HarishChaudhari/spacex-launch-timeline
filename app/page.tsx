@@ -10,7 +10,6 @@ export default function Home() {
     const [timerClock, setTimerClock] = useState('T - 00:00:00');
     const [is_started, setIsStarted] = useState(false);
     const [rotationAngle, setRotationAngle] = useState(0.1);
-    const [countUpClass, setCountUpClass] = useState('');
 
     function startLaunch(){
         if( is_started === true ) {
