@@ -34,7 +34,6 @@ a:hover, a:active, a:focus {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-grow: 1;
 }
 
 .logo {
