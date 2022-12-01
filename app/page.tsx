@@ -168,7 +168,7 @@ export default function Home() {
                     <p className={styles.fun_desc}>I could have made it a lot better, but I think this is good enough to play with. :) 
                         <br />Besides, I was just experimenting with <a href="https://nextjs.org/blog/next-13" target="_blank" rel="noreferrer">Next.js 13</a> and wanted a cool idea with smaller interactions.
                         <br/>This is desktop only, did not have enough time to make it work on different screens.
-                        If an algorithm is devised for plotting the nodes based on the actual mission time, then a whole lot of other features such as zoom in/out the timeline, add more interations.
+                        If an algorithm is devised for plotting the nodes based on the actual mission time, then a whole lot of other features such as zoom in/out the timeline and few more interations can be added.
                     </p>
                 </div>
             </main>
