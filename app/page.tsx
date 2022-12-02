@@ -138,11 +138,6 @@ export default function Home() {
                             In degrees.
                         </p>
                     </a>
-
-                    <a className={styles.card}>
-                        <h2>Altitude Interval &rarr;</h2>
-                        <p>Rate for Altitude calculation /sec.</p>
-                    </a>
                 </div>
 
                 <div className={styles.timeline_wrapper}>
