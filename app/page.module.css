@@ -55,7 +55,6 @@
 
 .grid {
   display: flex;
-  align-items: center;
   justify-content: center;
   /* flex-wrap: wrap; */
   width: 1200px;
@@ -71,6 +70,7 @@
   border-radius: 10px;
   transition: color 0.15s ease, border-color 0.15s ease;
   max-width: 200px;
+  width: 200px;
 }
 
 .card:hover,
@@ -306,6 +306,8 @@ li.done::after {
     padding: 8px 25px;
     border-radius: 5px;
     cursor: pointer;
+    width: 100%;
+    margin: 5px 0;
 }
 .button:hover {
     opacity: 0.9;
