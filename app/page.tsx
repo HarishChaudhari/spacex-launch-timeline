@@ -109,105 +109,107 @@ export default function Home() {
         // Get a reference to the <canvas> element.
         let canvas = document.getElementById('myCanvas');
 
-        // Get a reference to the 2D drawing context of the <canvas> element.
-        let ctx = canvas.getContext('2d');
+        if( canvas !== null ) {
+            // Get a reference to the 2D drawing context of the <canvas> element.
+            let ctx = canvas.getContext('2d');
 
-        // Calculate the coordinates of the center of the circle.
-        let centerX = (width / 2);
-        let centerY = (height / 2) + 24;
-
-        // Save the current canvas transformation.
-        ctx.save();
-
-        // Rotate the canvas by 180 degrees.
-        ctx.translate(centerX, centerY);
-        ctx.rotate(Math.PI);
-
-        // Draw a circle with radius r on the <canvas> element.
-        ctx.beginPath();
-        ctx.arc(0, 0, r, 0, 2 * Math.PI);
-        ctx.strokeStyle = '#ffffff';
-        ctx.stroke();
-
-        // For each node i in the range 1 to n, do the following:
-        for (let i = 1; i <= n; i++) {
-            // Get the timestamp of the node i from the array of timestamps.
-            let t_i = timestamps[i - 1];
-
-            // Generate a random color for the node.
-            //let color = '#' + Math.floor(Math.random() * 16777215).toString(16);
-            let color = '#ffffff';
-
-            // Calculate the angle of the point on the circle that corresponds to the timestamp t_i.
-            let angle_i = 2 * Math.PI * t_i / d + Math.PI / 2;
-
-            // Calculate the coordinates of the point on the circle that corresponds to the angle angle_i.
-            let x_i = r * Math.cos(angle_i);
-            let y_i = r * Math.sin(angle_i);
-
-            // Draw a hollow circle at the coordinates (x_i, y_i) with the generated color.
-            ctx.beginPath();
-            ctx.arc(x_i, y_i, 5, 0, 2 * Math.PI);
-            ctx.strokeStyle = color;
-            ctx.lineWidth = 2;
-            ctx.stroke();
-            ctx.fillStyle = '#000000';
-            ctx.fill();
+            // Calculate the coordinates of the center of the circle.
+            let centerX = (width / 2);
+            let centerY = (height / 2) + 24;
 
             // Save the current canvas transformation.
             ctx.save();
 
+            // Rotate the canvas by 180 degrees.
+            ctx.translate(centerX, centerY);
+            ctx.rotate(Math.PI);
 
-
-            // Draw a white background circle at the coordinates (x_i, y_i) with the generated color.
+            // Draw a circle with radius r on the <canvas> element.
             ctx.beginPath();
-            ctx.arc(x_i, y_i, 2, 0, 2 * Math.PI);
-            ctx.fillStyle = '#ffffff';
-            ctx.fill();
-
-            ctx.save();
-
-            // Translate the canvas to the center of the node and rotate it to match the angle of the point on the circle.
-            ctx.translate(x_i, y_i);
-            ctx.rotate(angle_i + Math.PI / 2);
-
-
-            // Draw a small white line on top of the node name.
-            ctx.beginPath();
-            if ((n % 2 !== 0) && (i === n)) {
-                ctx.moveTo(0, -6);
-                ctx.lineTo(0, -10);
-            } else if (i % 2 === 0) {
-                ctx.moveTo(0, -6);
-                ctx.lineTo(0, -10);
-            } else {
-                ctx.moveTo(0, 6);
-                ctx.lineTo(0, 10);
-            }
+            ctx.arc(0, 0, r, 0, 2 * Math.PI);
             ctx.strokeStyle = '#ffffff';
-            ctx.lineWidth = 1;
             ctx.stroke();
 
-            // Calculate the width of the node name in pixels.
-            let nodeNameWidth = ctx.measureText(`Node ${i}`).width;
+            // For each node i in the range 1 to n, do the following:
+            for (let i = 1; i <= n; i++) {
+                // Get the timestamp of the node i from the array of timestamps.
+                let t_i = timestamps[i - 1];
+
+                // Generate a random color for the node.
+                //let color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+                let color = '#ffffff';
+
+                // Calculate the angle of the point on the circle that corresponds to the timestamp t_i.
+                let angle_i = 2 * Math.PI * t_i / d + Math.PI / 2;
+
+                // Calculate the coordinates of the point on the circle that corresponds to the angle angle_i.
+                let x_i = r * Math.cos(angle_i);
+                let y_i = r * Math.sin(angle_i);
+
+                // Draw a hollow circle at the coordinates (x_i, y_i) with the generated color.
+                ctx.beginPath();
+                ctx.arc(x_i, y_i, 5, 0, 2 * Math.PI);
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                ctx.fillStyle = '#000000';
+                ctx.fill();
+
+                // Save the current canvas transformation.
+                ctx.save();
 
 
-            // Draw the name of the node to the left of the node.
-            ctx.fillStyle = color;
-            ctx.font = '12px sans-serif';
-            if ((n % 2 !== 0) && (i === n)) {
-                ctx.fillText(`Node ${i}`, -nodeNameWidth / 2 - 3, -15);
-            } else if (i % 2 === 0) {
-                ctx.fillText(`Node ${i}`, -nodeNameWidth / 2 - 3, -15);
-            } else {
-                ctx.fillText(`Node ${i}`, -nodeNameWidth / 2 - 3, 25);
+
+                // Draw a white background circle at the coordinates (x_i, y_i) with the generated color.
+                ctx.beginPath();
+                ctx.arc(x_i, y_i, 2, 0, 2 * Math.PI);
+                ctx.fillStyle = '#ffffff';
+                ctx.fill();
+
+                ctx.save();
+
+                // Translate the canvas to the center of the node and rotate it to match the angle of the point on the circle.
+                ctx.translate(x_i, y_i);
+                ctx.rotate(angle_i + Math.PI / 2);
+
+
+                // Draw a small white line on top of the node name.
+                ctx.beginPath();
+                if ((n % 2 !== 0) && (i === n)) {
+                    ctx.moveTo(0, -6);
+                    ctx.lineTo(0, -10);
+                } else if (i % 2 === 0) {
+                    ctx.moveTo(0, -6);
+                    ctx.lineTo(0, -10);
+                } else {
+                    ctx.moveTo(0, 6);
+                    ctx.lineTo(0, 10);
+                }
+                ctx.strokeStyle = '#ffffff';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+
+                // Calculate the width of the node name in pixels.
+                let nodeNameWidth = ctx.measureText(`Node ${i}`).width;
+
+
+                // Draw the name of the node to the left of the node.
+                ctx.fillStyle = color;
+                ctx.font = '12px sans-serif';
+                if ((n % 2 !== 0) && (i === n)) {
+                    ctx.fillText(`Node ${i}`, -nodeNameWidth / 2 - 3, -15);
+                } else if (i % 2 === 0) {
+                    ctx.fillText(`Node ${i}`, -nodeNameWidth / 2 - 3, -15);
+                } else {
+                    ctx.fillText(`Node ${i}`, -nodeNameWidth / 2 - 3, 25);
+                }
+                // Restore the previous canvas transformation.
+                ctx.restore();
             }
+
             // Restore the previous canvas transformation.
             ctx.restore();
         }
-
-        // Restore the previous canvas transformation.
-        ctx.restore();
     }
 
     useEffect(() => {
