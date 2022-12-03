@@ -107,13 +107,12 @@ export default function Home() {
 
     function plotNodesOnCircle(n: any, d: any, r: any, timestamps: any, width: any, height: any) {
         // Get a reference to the <canvas> element.
-        // let canvas = document.getElementById('page_myCanvas__8Xiqg') as HTMLCanvasElement;
-        const canvas = document.querySelector('page_myCanvas__8Xiqg');
-        if (!(canvas instanceof HTMLCanvasElement)) return
-
+        let canvas = document.getElementById('page_myCanvas__8Xiqg');
+        
+        if( canvas !== null ) {
             // Get a reference to the 2D drawing context of the <canvas> element.
-            let ctx = canvas.getContext('2d');
-
+            let ctx = canvas?.getContext('2d');
+            
             // Calculate the coordinates of the center of the circle.
             let centerX = (width / 2);
             let centerY = (height / 2) + 24;
@@ -210,7 +209,7 @@ export default function Home() {
 
             // Restore the previous canvas transformation.
             ctx.restore();
-        
+        }
     }
 
     useEffect(() => {
