@@ -107,9 +107,10 @@ export default function Home() {
 
     function plotNodesOnCircle(n: any, d: any, r: any, timestamps: any, width: any, height: any) {
         // Get a reference to the <canvas> element.
-        let canvas = document.getElementById('myCanvas');
+        // let canvas = document.getElementById('page_myCanvas__8Xiqg') as HTMLCanvasElement;
+        const canvas = document.querySelector('page_myCanvas__8Xiqg');
+        if (!(canvas instanceof HTMLCanvasElement)) return
 
-        if( canvas !== null ) {
             // Get a reference to the 2D drawing context of the <canvas> element.
             let ctx = canvas.getContext('2d');
 
@@ -209,7 +210,7 @@ export default function Home() {
 
             // Restore the previous canvas transformation.
             ctx.restore();
-        }
+        
     }
 
     useEffect(() => {
@@ -274,7 +275,7 @@ export default function Home() {
                     <div className={styles.timer_clock}>{timerClock}</div>
                 </div>
                 <div className={styles.canvas_wrapper}>
-                    <canvas id="myCanvas" width="1200" height="1200"></canvas>
+                    <canvas id={styles.myCanvas} width="1200" height="1200"></canvas>
                 </div>
                 <div>
                     <p className={styles.fun}>Made just for fun!</p>

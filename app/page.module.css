@@ -341,6 +341,9 @@ li.done::after {
     width: 1152px;
     height: 1152px;
 }
+#myCanvas {
+    
+}
 /* Time line css ends*/
 
 @media (max-width: 600px) {
