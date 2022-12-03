@@ -111,6 +111,7 @@ export default function Home() {
         
         if( canvas !== null ) {
             // Get a reference to the 2D drawing context of the <canvas> element.
+            // @ts-ignore: Property 'getContext' does not exist on type 'HTMLElement'.
             let ctx = canvas?.getContext('2d');
             
             // Calculate the coordinates of the center of the circle.
