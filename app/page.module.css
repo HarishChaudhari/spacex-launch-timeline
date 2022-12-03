@@ -324,6 +324,23 @@ li.done::after {
     width: 60%;
     margin: 0 auto;
 }
+.canvas_wrapper {
+    margin: 30px 0;
+    padding: 50px 0;
+    background: #111;
+    color: #fff;
+    box-shadow: 0 0 0 100vmax #111;
+    -webkit-clip-path: inset(0 -100vmax);
+    clip-path: inset(0 -100vmax);
+    
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+}
+.canvas_wrapper canvas {
+    width: 1152px;
+    height: 1152px;
+}
 /* Time line css ends*/
 
 @media (max-width: 600px) {
