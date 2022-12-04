@@ -333,8 +333,8 @@ li.done::after {
     -webkit-clip-path: inset(0 -100vmax);
     clip-path: inset(0 -100vmax);
     
-    /* height: 200px;
-    overflow: hidden; */
+    height: 200px;
+    overflow: hidden;
     position: relative;
 }
 .canvas_wrapper canvas {
@@ -343,6 +343,13 @@ li.done::after {
 }
 #mySvg {
     transform: rotate(180deg);
+    transition: all 1ms;
+    position: absolute;
+    top: 50px;
+    left: 0;
+}
+#mySvg * {
+    transition: all 1ms;
 }
 /* Time line css ends*/
 

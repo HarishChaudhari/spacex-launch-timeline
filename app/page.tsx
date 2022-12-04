@@ -1,6 +1,7 @@
 "use client"
 import styles from './page.module.css'
 import { useEffect, useState } from 'react';
+import { exit } from 'process';
 
 var timerInterval: any;
 var rotationInterval: any;
@@ -216,7 +217,8 @@ export default function Home() {
     function plotNodesOnCircle2(n: any, d: any, r: any, timestamps: any, width: any, height: any) {
         // Get a reference to the <svg> element.
         let svg = document.getElementById('page_mySvg__NvADY');
-
+        //@ts-ignore
+        svg.innerHTML = "";
         if (svg !== null) {
             // Calculate the coordinates of the center of the circle.
             let centerX = (width / 2);
@@ -229,6 +231,7 @@ export default function Home() {
             circle.setAttribute('r', r.toString());
             circle.setAttribute('stroke', '#ffffff');
             svg.appendChild(circle);
+            
 
             // For each node i in the range 1 to n, do the following:
             for (let i = 1; i <= n; i++) {
@@ -319,7 +322,18 @@ export default function Home() {
 
         // You now have access to `window`
         let timestamps = [0.1, 7, 25, 40, 60, 65, 70, 85, 92, 95, 99];
-        plotNodesOnCircle2(11, 100, 576, timestamps, 1200, 1200);
+        let angle = 0;
+
+        console.log(timestamps);
+        setInterval(function(){
+            plotNodesOnCircle2(11, 100, 576, timestamps, 1200, 1200);
+
+            timestamps.forEach(function (v, k) {
+                timestamps[k] = v - 0.002;
+            });
+
+        }, 10);
+        
 
     }, []);
 
