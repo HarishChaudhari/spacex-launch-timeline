@@ -213,11 +213,113 @@ export default function Home() {
         }
     }
 
+    function plotNodesOnCircle2(n: any, d: any, r: any, timestamps: any, width: any, height: any) {
+        // Get a reference to the <svg> element.
+        let svg = document.getElementById('page_mySvg__NvADY');
+
+        if (svg !== null) {
+            // Calculate the coordinates of the center of the circle.
+            let centerX = (width / 2);
+            let centerY = (height / 2);
+
+            // Create an SVG circle element with radius r at the center of the canvas.
+            let circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            circle.setAttribute('cx', centerX.toString());
+            circle.setAttribute('cy', centerY.toString());
+            circle.setAttribute('r', r.toString());
+            circle.setAttribute('stroke', '#ffffff');
+            svg.appendChild(circle);
+
+            // For each node i in the range 1 to n, do the following:
+            for (let i = 1; i <= n; i++) {
+                // Get the timestamp of the node i from the array of timestamps.
+                let t_i = timestamps[i - 1];
+
+                // Generate a random color for the node.
+                //let color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+                let color = '#ffffff';
+
+                // Calculate the angle of the point on the circle that corresponds to the timestamp t_i.
+                let angle_i = 2 * Math.PI * t_i / d + Math.PI / 2;
+
+                // Calculate the coordinates of the point on the circle that corresponds to the angle angle_i.
+                let x_i = r * Math.cos(angle_i);
+                let y_i = r * Math.sin(angle_i);
+
+                // Create an SVG circle element for the node at the coordinates (x_i, y_i) with the generated color.
+                let node = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                node.setAttribute('cx', (centerX + x_i).toString());
+                node.setAttribute('cy', (centerY + y_i).toString());
+                node.setAttribute('r', '5');
+                node.setAttribute('stroke', color);
+                node.setAttribute('stroke-width', '1');
+                node.setAttribute('fill', '#000000');
+                svg.appendChild(node);
+
+                // Create a small white circle for the node name.
+                let nameCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                nameCircle.setAttribute('cx', (centerX + x_i).toString());
+                nameCircle.setAttribute('cy', (centerY + y_i).toString());
+                nameCircle.setAttribute('r', '2');
+                nameCircle.setAttribute('fill', '#ffffff');
+                
+                svg.appendChild(nameCircle);
+
+                // Create an SVG text element for the node name.
+                let name = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                
+                if ((n % 2 !== 0) && (i === n)) {
+                    name.setAttribute('x', (centerX + x_i).toString());
+                    name.setAttribute('y', (centerY + y_i - 15).toString());
+                } else if (i % 2 === 0) {
+                    name.setAttribute('x', (centerX + x_i).toString());
+                    name.setAttribute('y', (centerY + y_i - 15).toString());
+                } else {
+                    name.setAttribute('x', (centerX + x_i).toString());
+                    name.setAttribute('y', (centerY + y_i + 25).toString());
+                }
+                name.setAttribute('transform', `rotate(${(angle_i + Math.PI / 2) * 180 / Math.PI}, ${centerX + x_i}, ${centerY + y_i})`);
+                name.setAttribute('fill', color);
+                name.setAttribute('font-size', '10');
+                name.setAttribute('text-anchor', 'middle');
+                name.innerHTML = `Node ${i}`;
+                svg.appendChild(name);
+
+                // Create a small white line on top of the node name.
+                let line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                
+                if ((n % 2 !== 0) && (i === n)) {
+                    line.setAttribute('x1', (centerX + x_i).toString());
+                    line.setAttribute('y1', (centerY + y_i - 6).toString());
+
+                    line.setAttribute('x2', (centerX + x_i).toString());
+                    line.setAttribute('y2', (centerY + y_i - 10).toString());
+                } else if (i % 2 === 0) {
+                    line.setAttribute('x1', (centerX + x_i).toString());
+                    line.setAttribute('y1', (centerY + y_i - 6).toString());
+
+                    line.setAttribute('x2', (centerX + x_i).toString());
+                    line.setAttribute('y2', (centerY + y_i - 10).toString());
+                } else {
+                    line.setAttribute('x1', (centerX + x_i).toString());
+                    line.setAttribute('y1', (centerY + y_i + 6).toString());
+
+                    line.setAttribute('x2', (centerX + x_i).toString());
+                    line.setAttribute('y2', (centerY + y_i + 10).toString());
+                }
+                line.setAttribute('transform', `rotate(${(angle_i + Math.PI / 2) * 180 / Math.PI}, ${centerX + x_i}, ${centerY + y_i})`);
+                line.setAttribute('stroke', '#ffffff');
+                line.setAttribute('stroke-width', '1');
+                svg.appendChild(line);
+            }
+        }
+    }
+
     useEffect(() => {
 
         // You now have access to `window`
         let timestamps = [0.1, 7, 25, 40, 60, 65, 70, 85, 92, 95, 99];
-        plotNodesOnCircle(11, 100, 600, timestamps, 1200, 1200);
+        plotNodesOnCircle2(11, 100, 576, timestamps, 1200, 1200);
 
     }, []);
 
@@ -275,7 +377,8 @@ export default function Home() {
                     <div className={styles.timer_clock}>{timerClock}</div>
                 </div>
                 <div className={styles.canvas_wrapper}>
-                    <canvas id={styles.myCanvas} width="1200" height="1200"></canvas>
+                    {/* <canvas id={styles.myCanvas} width="1200" height="1200"></canvas> */}
+                    <svg id={styles.mySvg} width="1200" height="1200"></svg>
                 </div>
                 <div>
                     <p className={styles.fun}>Made just for fun!</p>

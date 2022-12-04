@@ -333,16 +333,16 @@ li.done::after {
     -webkit-clip-path: inset(0 -100vmax);
     clip-path: inset(0 -100vmax);
     
-    height: 200px;
-    overflow: hidden;
+    /* height: 200px;
+    overflow: hidden; */
     position: relative;
 }
 .canvas_wrapper canvas {
     width: 1152px;
     height: 1152px;
 }
-#myCanvas {
-    
+#mySvg {
+    transform: rotate(180deg);
 }
 /* Time line css ends*/
 
