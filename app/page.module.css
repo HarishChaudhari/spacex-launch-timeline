@@ -69,8 +69,8 @@
   border: 1px solid #eaeaea;
   border-radius: 10px;
   transition: color 0.15s ease, border-color 0.15s ease;
-  max-width: 200px;
-  width: 200px;
+  max-width: 250px;
+  width: 250px;
 }
 
 .card:hover,
@@ -90,6 +90,70 @@
   font-size: 1rem;
   line-height: 1;
 }
+
+.sep {
+    background: #ccc;
+    height: 1px;
+    width: 100%;
+    margin: 15px auto;;
+}
+/* nodes list start */
+.card:first-child {
+    max-width: 300px;
+    width: 300px;
+}
+.node_list::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 10px;
+}
+
+.node_list::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, .5);
+    -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+}
+.node_list {
+    height: 167px;
+    overflow-y: scroll;
+    padding-right: 5px;
+    width: calc(100% + 15px);
+}
+.node {
+    display: flex;
+    justify-content: space-between;
+}
+.node .input_text {
+    width: 30%;
+}
+.node .button {
+    width: 30px;
+    padding: 0;
+    font-size: 20px;
+}
+.node .button.add {
+    background: #67b558;
+}
+.node .button.add,
+.node:first-of-type .button.delete {
+    display: none;
+}
+.node:last-of-type .button.add {
+    display: initial;
+}
+.node .button.delete {
+    background: #cc3300;
+    width: 72px;
+}
+.node:last-of-type .button.delete {
+    width: 30px;
+}
+.node:first-of-type .button.add {
+    width: 72px;
+}
+.node_list:has(.node + .node) .node:first-of-type .button.delete {
+    display: initial;
+}
+/* nodes list end */
 
 /* Time line css starts*/
 /* exact center: transform: translate(557.5px, 45.5px); 
@@ -286,7 +350,7 @@ li.done::after {
     padding: 25px 0;
 }
 .input_text {
-    padding: 5px 10px;
+    padding: 7px 10px;
     width: 100%;
     max-width: 100%;
     border: 1px solid #ccc;

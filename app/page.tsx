@@ -1,19 +1,99 @@
 "use client"
 import styles from './page.module.css'
-import { useEffect, useState } from 'react';
+import { useEffect, useState, MouseEvent } from 'react';
 import { exit } from 'process';
+import { time, timeStamp } from 'console';
 
 var timerInterval: any;
 var rotationInterval: any;
 
+var t_arr: any = [], n_arr: any = [];
+
+// get from localStorage if existing otherwise set default values above from useState
+if (localStorage.getItem('timestamps') !== null) {
+    console.log(localStorage.getItem('timestamps'));
+    //@ts-ignore
+    let t_json = JSON.parse(localStorage.getItem('timestamps'));
+    t_arr = [];
+    for (var i in t_json) {
+        t_arr.push(t_json[i]);
+    }
+} else {
+    t_arr.push(0);
+}
+if (localStorage.getItem('nodenames') !== null) {
+    //@ts-ignore
+    let n_json = JSON.parse(localStorage.getItem('nodenames'));
+    n_arr = [];
+    for (var i in n_json) {
+        n_arr.push(n_json[i]);
+    }
+} else {
+    n_arr.push('Node 1');
+}
 
 export default function Home() {
-    const [timeValue, setTimeValue] = useState('0.5');
+    
+    const [timestamps, setTimestamps] = useState(t_arr);
+    const [nodeNames, setNodeNames] = useState(n_arr);
+    
+    
+    const [missionTime, setMissionTime] = useState('8.37');
+    const [timeValue, setTimeValue] = useState('0.1');
     const [timerClock, setTimerClock] = useState('T - 00:00:00');
     const [is_started, setIsStarted] = useState(false);
     const [rotationAngle, setRotationAngle] = useState(0.1);
 
+    function addNode(e : any){
+        let t = [...timestamps];
+        t.push(0);
+        setTimestamps(t);
+    }
+    function deleteNode(e: MouseEvent<HTMLButtonElement>) {
+        e.preventDefault();
+        let keyToDelete = e.currentTarget.getAttribute('data-key');
+        let t = [...timestamps];
+        //@ts-ignore
+        delete t[keyToDelete];
+        setTimestamps(t);
+    }
+
+    function saveNode(e : any){
+        let t = [...timestamps];
+        let keyToUpdate = e.currentTarget.getAttribute('data-key');
+        t[keyToUpdate] = e.target.value;
+        //@ts-ignore
+        localStorage.setItem('timestamps', JSON.stringify(t));
+        
+        return setTimestamps(t);
+    }
+
+    function saveNodeText(e: any) {
+        let n = [...nodeNames];
+        let keyToUpdate = e.currentTarget.getAttribute('data-key');
+        n[keyToUpdate] = e.target.value;
+        //@ts-ignore
+        localStorage.setItem('nodenames', JSON.stringify(n));
+
+        return setNodeNames(n);
+    }
+    
+
+    function addTimestamps(t: any) {
+        // t.array.forEach((element: any) => {
+        //     timestamps.push(element);
+        // });
+        // setTimestamps(timestamps);
+    }
+
     function startLaunch() {
+        // var T = 3.1;
+        // var D = parseFloat(timestamps[timestamps.length - 1]);
+        // var N = timestamps.length;
+        // var svgAngleofRotation = (2 * Math.PI * T) / (D / N);
+        // console.log(T,D,N, svgAngleofRotation);
+        // setRotationAngle(svgAngleofRotation);
+
         if (is_started === true) {
             setIsStarted(false);
             clearInterval(timerInterval);
@@ -26,6 +106,10 @@ export default function Home() {
     }
     function setAngle(e: any) {
         setRotationAngle(e.target.value);
+    }
+
+    function updateMissionTime(e: any) {
+        return setMissionTime(e.target.value);
     }
 
     function updateTimer(e: any) {
@@ -66,7 +150,7 @@ export default function Home() {
                 setTimer(0, 'inc');
             }
 
-        }, 1000);
+        }, 1000, timestamps);
     };
 
     function elementsOverlap(el1: any, el2: any) {
@@ -87,134 +171,49 @@ export default function Home() {
         clearInterval(rotationInterval);
         rotationInterval = setInterval(function () {
             //rotate the circle
-            var angle = parseFloat(jQuery('#page_circle_wrapper__RmoWD').attr('data-angle') as string);
-            angle = angle - rotationAngle;
+            // var angle = parseFloat(jQuery('#page_circle_wrapper__RmoWD').attr('data-angle') as string);
+            // angle = angle - rotationAngle;
 
-            jQuery('#page_circle_wrapper__RmoWD').css('transform', 'rotate(' + angle + 'deg)');
-            jQuery('#page_circle_wrapper__RmoWD').attr('data-angle', angle);
+            // jQuery('#page_circle_wrapper__RmoWD').css('transform', 'rotate(' + angle + 'deg)');
+            // jQuery('#page_circle_wrapper__RmoWD').attr('data-angle', angle);
 
-            jQuery('#nodes li').each(function () {
+            // jQuery('#nodes li').each(function () {
 
-                if (elementsOverlap(jQuery(this).find('div')[0], jQuery('#page_marker__Y9t1D')[0]) === true) {
-                    jQuery(this).addClass('page_done__0RB5C');
-                }
-                // check if element goes outside div remove done class
-                if (elementOutside(jQuery(this).find('div')[0], jQuery('.page_timeline_wrapper__ybJhT')[0]) === true) {
-                    jQuery(this).removeClass('page_done__0RB5C');
-                }
+            //     if (elementsOverlap(jQuery(this).find('div')[0], $('#page_marker__Y9t1D')[0]) === true) {
+            //         jQuery(this).addClass('page_done__0RB5C');
+            //     }
+            //     // check if element goes outside div remove done class
+            //     if (elementOutside($(this).find('div')[0], jQuery('.page_timeline_wrapper__ybJhT')[0]) === true) {
+            //         jQuery(this).removeClass('page_done__0RB5C');
+            //     }
+            // });
+
+            // new .343
+            let c = 2 * Math.PI * 576;
+            console.log(c);
+            //c = (c / 2) / 1000000;
+            console.log(c);
+            var m = parseInt(missionTime.split('.')[0]);
+            var s = parseInt(missionTime.split('.')[1]);
+            // var minutes = m;
+            let seconds = (m * 60) + s;
+            console.log(seconds);
+            console.log(seconds*1000);
+            var b = (c / 2) / (seconds * 1000) * (Math.PI/(timestamps.length-1));
+            var ca = parseFloat( b.toString() ).toFixed(4); //1000000;
+            console.log(ca);
+
+            plotNodesOnCircle(timestamps.length, missionTime, 576, timestamps, 1200, 1200);
+
+            timestamps.forEach(function (v: any, k: any) {
+                // timestamps[k] = v - 0.001;
+                // timestamps[k] = v - rotationAngle;
+                timestamps[k] = v - parseFloat(ca);
             });
         }, 100);
     }
 
     function plotNodesOnCircle(n: any, d: any, r: any, timestamps: any, width: any, height: any) {
-        // Get a reference to the <canvas> element.
-        let canvas = document.getElementById('page_myCanvas__8Xiqg');
-        
-        if( canvas !== null ) {
-            // Get a reference to the 2D drawing context of the <canvas> element.
-            // @ts-ignore: Property 'getContext' does not exist on type 'HTMLElement'.
-            let ctx = canvas.getContext('2d');
-            
-            // Calculate the coordinates of the center of the circle.
-            let centerX = (width / 2);
-            let centerY = (height / 2) + 24;
-
-            // Save the current canvas transformation.
-            ctx.save();
-
-            // Rotate the canvas by 180 degrees.
-            ctx.translate(centerX, centerY);
-            ctx.rotate(Math.PI);
-
-            // Draw a circle with radius r on the <canvas> element.
-            ctx.beginPath();
-            ctx.arc(0, 0, r, 0, 2 * Math.PI);
-            ctx.strokeStyle = '#ffffff';
-            ctx.stroke();
-
-            // For each node i in the range 1 to n, do the following:
-            for (let i = 1; i <= n; i++) {
-                // Get the timestamp of the node i from the array of timestamps.
-                let t_i = timestamps[i - 1];
-
-                // Generate a random color for the node.
-                //let color = '#' + Math.floor(Math.random() * 16777215).toString(16);
-                let color = '#ffffff';
-
-                // Calculate the angle of the point on the circle that corresponds to the timestamp t_i.
-                let angle_i = 2 * Math.PI * t_i / d + Math.PI / 2;
-
-                // Calculate the coordinates of the point on the circle that corresponds to the angle angle_i.
-                let x_i = r * Math.cos(angle_i);
-                let y_i = r * Math.sin(angle_i);
-
-                // Draw a hollow circle at the coordinates (x_i, y_i) with the generated color.
-                ctx.beginPath();
-                ctx.arc(x_i, y_i, 5, 0, 2 * Math.PI);
-                ctx.strokeStyle = color;
-                ctx.lineWidth = 2;
-                ctx.stroke();
-                ctx.fillStyle = '#000000';
-                ctx.fill();
-
-                // Save the current canvas transformation.
-                ctx.save();
-
-
-
-                // Draw a white background circle at the coordinates (x_i, y_i) with the generated color.
-                ctx.beginPath();
-                ctx.arc(x_i, y_i, 2, 0, 2 * Math.PI);
-                ctx.fillStyle = '#ffffff';
-                ctx.fill();
-
-                ctx.save();
-
-                // Translate the canvas to the center of the node and rotate it to match the angle of the point on the circle.
-                ctx.translate(x_i, y_i);
-                ctx.rotate(angle_i + Math.PI / 2);
-
-
-                // Draw a small white line on top of the node name.
-                ctx.beginPath();
-                if ((n % 2 !== 0) && (i === n)) {
-                    ctx.moveTo(0, -6);
-                    ctx.lineTo(0, -10);
-                } else if (i % 2 === 0) {
-                    ctx.moveTo(0, -6);
-                    ctx.lineTo(0, -10);
-                } else {
-                    ctx.moveTo(0, 6);
-                    ctx.lineTo(0, 10);
-                }
-                ctx.strokeStyle = '#ffffff';
-                ctx.lineWidth = 1;
-                ctx.stroke();
-
-                // Calculate the width of the node name in pixels.
-                let nodeNameWidth = ctx.measureText(`Node ${i}`).width;
-
-
-                // Draw the name of the node to the left of the node.
-                ctx.fillStyle = color;
-                ctx.font = '12px sans-serif';
-                if ((n % 2 !== 0) && (i === n)) {
-                    ctx.fillText(`Node ${i}`, -nodeNameWidth / 2 - 3, -15);
-                } else if (i % 2 === 0) {
-                    ctx.fillText(`Node ${i}`, -nodeNameWidth / 2 - 3, -15);
-                } else {
-                    ctx.fillText(`Node ${i}`, -nodeNameWidth / 2 - 3, 25);
-                }
-                // Restore the previous canvas transformation.
-                ctx.restore();
-            }
-
-            // Restore the previous canvas transformation.
-            ctx.restore();
-        }
-    }
-
-    function plotNodesOnCircle2(n: any, d: any, r: any, timestamps: any, width: any, height: any) {
         // Get a reference to the <svg> element.
         let svg = document.getElementById('page_mySvg__NvADY');
         //@ts-ignore
@@ -232,6 +231,16 @@ export default function Home() {
             circle.setAttribute('stroke', '#ffffff');
             svg.appendChild(circle);
             
+
+            // Create a small white line on top of the circle for marker
+            let marker = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            marker.setAttribute('stroke', '#ffffff');
+            marker.setAttribute('stroke-width', '1');
+            marker.setAttribute('x1', (centerX).toString());
+            marker.setAttribute('y1', ((centerY + r) + 3).toString());
+            marker.setAttribute('x2', (centerX).toString());
+            marker.setAttribute('y2', ((centerY + r) - 3).toString());
+            svg.appendChild(marker);
 
             // For each node i in the range 1 to n, do the following:
             for (let i = 1; i <= n; i++) {
@@ -259,14 +268,16 @@ export default function Home() {
                 node.setAttribute('fill', '#000000');
                 svg.appendChild(node);
 
-                // Create a small white circle for the node name.
-                let nameCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-                nameCircle.setAttribute('cx', (centerX + x_i).toString());
-                nameCircle.setAttribute('cy', (centerY + y_i).toString());
-                nameCircle.setAttribute('r', '2');
-                nameCircle.setAttribute('fill', '#ffffff');
-                
-                svg.appendChild(nameCircle);
+                if ( (centerX + x_i) >= (centerX) && (centerY + y_i) <= (centerY + r) ) {
+                    // Create a small white circle for the node name.
+                    let nameCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                    nameCircle.setAttribute('cx', (centerX + x_i).toString());
+                    nameCircle.setAttribute('cy', (centerY + y_i).toString());
+                    nameCircle.setAttribute('r', '2');
+                    nameCircle.setAttribute('fill', '#ffffff');
+                    
+                    svg.appendChild(nameCircle);
+                }
 
                 // Create an SVG text element for the node name.
                 let name = document.createElementNS('http://www.w3.org/2000/svg', 'text');
@@ -285,7 +296,8 @@ export default function Home() {
                 name.setAttribute('fill', color);
                 name.setAttribute('font-size', '10');
                 name.setAttribute('text-anchor', 'middle');
-                name.innerHTML = `Node ${i}`;
+                //name.innerHTML = `Node ${i}`;
+                name.innerHTML = `${nodeNames[i-1]}`;
                 svg.appendChild(name);
 
                 // Create a small white line on top of the node name.
@@ -293,19 +305,19 @@ export default function Home() {
                 
                 if ((n % 2 !== 0) && (i === n)) {
                     line.setAttribute('x1', (centerX + x_i).toString());
-                    line.setAttribute('y1', (centerY + y_i - 6).toString());
+                    line.setAttribute('y1', (centerY + y_i - 5).toString());
 
                     line.setAttribute('x2', (centerX + x_i).toString());
                     line.setAttribute('y2', (centerY + y_i - 10).toString());
                 } else if (i % 2 === 0) {
                     line.setAttribute('x1', (centerX + x_i).toString());
-                    line.setAttribute('y1', (centerY + y_i - 6).toString());
+                    line.setAttribute('y1', (centerY + y_i - 5).toString());
 
                     line.setAttribute('x2', (centerX + x_i).toString());
                     line.setAttribute('y2', (centerY + y_i - 10).toString());
                 } else {
                     line.setAttribute('x1', (centerX + x_i).toString());
-                    line.setAttribute('y1', (centerY + y_i + 6).toString());
+                    line.setAttribute('y1', (centerY + y_i + 5).toString());
 
                     line.setAttribute('x2', (centerX + x_i).toString());
                     line.setAttribute('y2', (centerY + y_i + 10).toString());
@@ -321,88 +333,113 @@ export default function Home() {
     useEffect(() => {
 
         // You now have access to `window`
-        let timestamps = [0.1, 7, 25, 40, 60, 65, 70, 85, 92, 95, 99];
+        // let timestamps = [0.1, 7, 25, 40, 60, 65, 70, 85, 92, 95, 99];
         let angle = 0;
 
         console.log(timestamps);
-        setInterval(function(){
-            plotNodesOnCircle2(11, 100, 576, timestamps, 1200, 1200);
-
-            timestamps.forEach(function (v, k) {
-                timestamps[k] = v - 0.002;
-            });
-
-        }, 10);
+        console.log(nodeNames);
+        plotNodesOnCircle(timestamps.length, missionTime, 576, timestamps, 1200, 1200);
         
-
-    }, []);
+    }, [timestamps, nodeNames, missionTime]);
 
     return (
-        <div className={styles.container}>
-            <main className={styles.main}>
-                <div className={styles.grid}>
-                    <a className={styles.card}>
-                        <h2>Start/Stop</h2>
-                        <p>
-                            <button className={styles.button} onClick={startLaunch}>
-                                {is_started === false ? "Start" : "Stop"}
-                            </button>
-                        </p>
-                    </a>
-
-                    <a className={styles.card}>
-                        <h2>Time to Lanuch &rarr;</h2>
-                        <p>
-                            <input className={styles.input_text}
-                                value={timeValue}
-                                onChange={updateTimer}
-                            />
-                            In Minutes.</p>
-                    </a>
-
-                    <a className={styles.card}>
-                        <h2>Rotation Angle &rarr;</h2>
-                        <p>
-                            <input className={styles.input_text}
-                                value={rotationAngle}
-                                onChange={setAngle}
-                            />
-                            In degrees.
-                        </p>
-                    </a>
-                </div>
-
-                <div className={styles.timeline_wrapper}>
-                    <div id={styles.marker}></div>
-                    <div id={styles.circle_wrapper} data-angle="0">
-                        <div id={styles.circle}></div>
-                        <ul id="nodes" className={styles.nodes}>
-                            <li data-current-x="0" data-current-y="0"><div className={styles.node_circle}></div><span>Startup</span></li>
-                            <li data-current-x="40" data-current-y="6"><div className={styles.node_circle}></div><span>Liftoff</span></li>
-                            <li data-current-x="77" data-current-y="22"><div className={styles.node_circle}></div><span>Max Q</span></li>
-                            <li data-current-x="125" data-current-y="57"><div className={styles.node_circle}></div><span>MECO</span></li>
-                            <li data-current-x="165" data-current-y="114"><div className={styles.node_circle}></div><span>S1 Detach</span></li>
-                            <li data-current-x="172" data-current-y="198"><div className={styles.node_circle}></div><span>S2 Startup</span></li>
-                            <li data-current-x="150" data-current-y="261"><div className={styles.node_circle}></div><span>SECO</span></li>
-                            <li data-current-x="180" data-current-y="412"><div className={styles.node_circle}></div><span>Deploy</span></li>
-                        </ul>
+        <>
+            <div className={styles.grid}>
+                <div className={styles.card}>
+                    <h2>Add Events (In Minutes) &rarr;</h2>
+                    {/* onClick={saveNodes} */}
+                    {/* <button className={styles.button}>
+                        Save Events
+                    </button> */}
+                    
+                    <div className={styles.node_list}>
+                        {timestamps.map((x: any, i: any) =>
+                            <p className={[styles.node, i].join(' ')} key={i}>
+                                <input className={styles.input_text} value={x} onChange={saveNode} data-key={i} />
+                                <input className={styles.input_text} value={nodeNames[i]} onChange={saveNodeText} data-key={i} />
+                                <button className={[styles.button, styles.add].join(' ')}
+                                    onClick={addNode}>+</button>
+                                <button className={[styles.button, styles.delete].join(' ')}
+                                    onClick={deleteNode}
+                                    data-key={i}
+                                    >-</button>
+                            </p>
+                        )}                        
                     </div>
+                </div>
 
-                    <div className={styles.timer_clock}>{timerClock}</div>
-                </div>
-                <div className={styles.canvas_wrapper}>
-                    {/* <canvas id={styles.myCanvas} width="1200" height="1200"></canvas> */}
-                    <svg id={styles.mySvg} width="1200" height="1200"></svg>
-                </div>
-                <div>
-                    <p className={styles.fun}>Made just for fun!</p>
-                    <p className={styles.fun_desc}>I could have made it a lot better, but I think this is good enough to play with. :)
-                        <br />Besides, I was just experimenting with <a href="https://nextjs.org/blog/next-13" target="_blank" rel="noreferrer">Next.js 13</a> and wanted a cool idea with smaller interactions.
-                        <br />This is desktop only, did not have enough time to make it work on different screens.
-                        If an algorithm is devised for plotting the nodes based on the actual mission time, then a whole lot of other features such as zoom in/out the timeline and few more interations can be added.
+                <div className={styles.card}>
+                    <h2>Start/Stop</h2>
+                    <p>
+                        <button className={styles.button} onClick={startLaunch}>
+                            {is_started === false ? "Start" : "Stop"}
+                        </button>
+                        <small>{is_started === false ? "Start" : "Stop"} Countdown</small>
+                    </p>
+                    <div className={styles.sep}></div>
+                    <h2>Total Mission Time &rarr;</h2>
+                    <p>
+                        <input className={styles.input_text}
+                            value={missionTime}
+                            onChange={updateMissionTime}
+                        />
+                        <small>In Minutes</small>
                     </p>
                 </div>
-            </main>
-        </div>
+
+                <div className={styles.card}>
+                    <h2>Time to Lanuch &rarr;</h2>
+                    <p>
+                        <input className={styles.input_text}
+                            value={timeValue}
+                            onChange={updateTimer}
+                        />
+                        <small>In Minutes</small>
+                    </p>
+                    <div className={styles.sep}></div>
+                    <h2>Rotation Angle &rarr;</h2>
+                    <p>
+                        <input className={styles.input_text}
+                            value={rotationAngle}
+                            onChange={setAngle}
+                        />
+                        <small>In Degrees</small>
+                    </p>
+                </div>
+            </div>
+            <div className={styles.container}>
+                <main className={styles.main}>
+                    <div className={styles.timeline_wrapper}>
+                        <div id={styles.marker}></div>
+                        <div id={styles.circle_wrapper} data-angle="0">
+                            <div id={styles.circle}></div>
+                            <ul id="nodes" className={styles.nodes}>
+                                <li data-current-x="0" data-current-y="0"><div className={styles.node_circle}></div><span>Startup</span></li>
+                                <li data-current-x="40" data-current-y="6"><div className={styles.node_circle}></div><span>Liftoff</span></li>
+                                <li data-current-x="77" data-current-y="22"><div className={styles.node_circle}></div><span>Max Q</span></li>
+                                <li data-current-x="125" data-current-y="57"><div className={styles.node_circle}></div><span>MECO</span></li>
+                                <li data-current-x="165" data-current-y="114"><div className={styles.node_circle}></div><span>S1 Detach</span></li>
+                                <li data-current-x="172" data-current-y="198"><div className={styles.node_circle}></div><span>S2 Startup</span></li>
+                                <li data-current-x="150" data-current-y="261"><div className={styles.node_circle}></div><span>SECO</span></li>
+                                <li data-current-x="180" data-current-y="412"><div className={styles.node_circle}></div><span>Deploy</span></li>
+                            </ul>
+                        </div>
+
+                        <div className={styles.timer_clock}>{timerClock}</div>
+                    </div>
+                    <div className={styles.canvas_wrapper}>
+                        <svg id={styles.mySvg} width="1200" height="1200"></svg>
+                    </div>
+                    <div>
+                        <p className={styles.fun}>Made just for fun!</p>
+                        <p className={styles.fun_desc}>I could have made it a lot better, but I think this is good enough to play with. :)
+                            <br />Besides, I was just experimenting with <a href="https://nextjs.org/blog/next-13" target="_blank" rel="noreferrer">Next.js 13</a> and wanted a cool idea with smaller interactions.
+                            <br />This is desktop only, did not have enough time to make it work on different screens.
+                            If an algorithm is devised for plotting the nodes based on the actual mission time, then a whole lot of other features such as zoom in/out the timeline and few more interations can be added.
+                        </p>
+                    </div>
+                </main>
+            </div>
+        </>
     )
 }
