@@ -3,7 +3,7 @@ import styles from './page.module.css'
 import { useEffect, useState, MouseEvent } from 'react';
 import { exit } from 'process';
 import { time, timeStamp } from 'console';
-
+var jQuery = require("jquery");
 var timerInterval: any;
 var rotationInterval: any;
 
@@ -38,11 +38,33 @@ export default function Home() {
     const [nodeNames, setNodeNames] = useState(n_arr);
     
     
-    const [missionTime, setMissionTime] = useState('8.37');
+    const [missionTime, setMissionTime] = useState('8:37');
     const [timeValue, setTimeValue] = useState('0.1');
     const [timerClock, setTimerClock] = useState('T - 00:00:00');
     const [is_started, setIsStarted] = useState(false);
     const [rotationAngle, setRotationAngle] = useState(0.1);
+
+    const convertTimeToFloat = (d: any) => {
+
+        if (d !== 0 && d !== '0') {
+            // Use the split() function to split the string into an array of minutes and seconds
+            let parts = d.split(':');
+
+            // Use the parseInt() function to convert the minutes and seconds to integers
+            let minutes = parseInt(parts[0]);
+            let seconds = parseInt(parts[1]);
+
+            // Calculate the duration in minutes as a floating point number
+            let duration = parseFloat((minutes + (seconds / 60)).toString()).toFixed(2);
+
+            return parseFloat(duration);
+        } else {
+            return parseFloat(d);
+        }
+    }
+
+    const [newTimestamps, setNewTimestamps] = useState(timestamps.map( (t: any) => { return convertTimeToFloat(t) } ) );
+    const [newMissionTime, setNewMissionTime] = useState(convertTimeToFloat(missionTime));
 
     function addNode(e : any){
         let t = [...timestamps];
@@ -188,32 +210,55 @@ export default function Home() {
             //     }
             // });
 
+            /* ------ */
+            // var angle = parseFloat(jQuery('#page_svg_wrapper__5lhot').attr('data-angle') as string);
+            // angle = angle - rotationAngle;
+
+            // jQuery('#page_svg_wrapper__5lhot').css('transform', 'rotate(' + angle + 'deg)');
+            // jQuery('#page_svg_wrapper__5lhot').attr('data-angle', angle);
+
+            // jQuery('#nodes li').each(function () {
+
+            //     if (elementsOverlap(jQuery(this).find('div')[0], $('#page_marker__Y9t1D')[0]) === true) {
+            //         jQuery(this).addClass('page_done__0RB5C');
+            //     }
+            //     // check if element goes outside div remove done class
+            //     if (elementOutside($(this).find('div')[0], jQuery('.page_timeline_wrapper__ybJhT')[0]) === true) {
+            //         jQuery(this).removeClass('page_done__0RB5C');
+            //     }
+            // });
+            /* ------- */
+
             // new .343
             let c = 2 * Math.PI * 576;
             console.log(c);
             //c = (c / 2) / 1000000;
             console.log(c);
-            var m = parseInt(missionTime.split('.')[0]);
-            var s = parseInt(missionTime.split('.')[1]);
+            var m = parseInt(missionTime.split(':')[0]);
+            var s = parseInt(missionTime.split(':')[1]);
             // var minutes = m;
             let seconds = (m * 60) + s;
             console.log(seconds);
             console.log(seconds*1000);
-            var b = (c / 2) / (seconds * 1000) * (Math.PI/(timestamps.length-1));
+            var b = (c / 1.5764) / (seconds * 1000) * (Math.PI/(timestamps.length-2));
             var ca = parseFloat( b.toString() ).toFixed(4); //1000000;
             console.log(ca);
+            /**
+             * circumference / 10000 => css -degree value
+             */
 
-            plotNodesOnCircle(timestamps.length, missionTime, 576, timestamps, 1200, 1200);
+            plotNodesOnCircle(newTimestamps.length, newMissionTime, 576, newTimestamps, 1200, 1200);
 
-            timestamps.forEach(function (v: any, k: any) {
-                // timestamps[k] = v - 0.001;
+            newTimestamps.forEach(function (v: any, k: any) {
+                newTimestamps[k] = v - 0.001;
                 // timestamps[k] = v - rotationAngle;
-                timestamps[k] = v - parseFloat(ca);
+                // newTimestamps[k] = v - parseFloat(ca);
             });
-        }, 100);
+        }, 75);
     }
 
     function plotNodesOnCircle(n: any, d: any, r: any, timestamps: any, width: any, height: any) {
+        console.log(n, d, r, timestamps, width, height);
         // Get a reference to the <svg> element.
         let svg = document.getElementById('page_mySvg__NvADY');
         //@ts-ignore
@@ -330,17 +375,38 @@ export default function Home() {
         }
     }
 
+    const updateNewTimes = () => {
+
+        let new_timestamps = [0];
+        for (var i = 0; i < timestamps.length; i++) {
+            new_timestamps[i] = convertTimeToFloat(timestamps[i]);
+        }
+        console.log(timestamps);
+        console.log(new_timestamps);
+        setNewTimestamps(new_timestamps);
+    }
+    const updateNewMissionTime = () => {
+        setNewMissionTime(convertTimeToFloat(missionTime));
+    }
+
+    useEffect(() => {
+        updateNewTimes();
+    }, [timestamps, nodeNames])
+
+    useEffect(() => {
+        updateNewMissionTime();
+    }, [missionTime])
+    
     useEffect(() => {
 
         // You now have access to `window`
         // let timestamps = [0.1, 7, 25, 40, 60, 65, 70, 85, 92, 95, 99];
         let angle = 0;
+        //console.log(nodeNames);
 
-        console.log(timestamps);
-        console.log(nodeNames);
-        plotNodesOnCircle(timestamps.length, missionTime, 576, timestamps, 1200, 1200);
+        plotNodesOnCircle(newTimestamps.length, newMissionTime, 576, newTimestamps, 1200, 1200);
         
-    }, [timestamps, nodeNames, missionTime]);
+    }, [newTimestamps, nodeNames, newMissionTime]);
 
     return (
         <>
@@ -428,7 +494,9 @@ export default function Home() {
                         <div className={styles.timer_clock}>{timerClock}</div>
                     </div>
                     <div className={styles.canvas_wrapper}>
-                        <svg id={styles.mySvg} width="1200" height="1200"></svg>
+                        <div id={styles.svg_wrapper} data-angle="0">
+                            <svg id={styles.mySvg} width="1200" height="1200"></svg>
+                        </div>
                     </div>
                     <div>
                         <p className={styles.fun}>Made just for fun!</p>

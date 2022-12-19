@@ -405,6 +405,9 @@ li.done::after {
     width: 1152px;
     height: 1152px;
 }
+#svg_wrapper {
+
+}
 #mySvg {
     transform: rotate(180deg);
     transition: all 1ms;
